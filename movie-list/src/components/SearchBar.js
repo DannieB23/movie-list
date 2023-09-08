@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { styled, alpha } from '@mui/material/styles';
 import { Button, AppBar, Box, Toolbar, IconButton, Typography, InputBase, MenuItem, Menu } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import HomeIcon from '@mui/icons-material/Home';
+
+
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -43,10 +45,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function PrimarySearchAppBar({ onSearch }) {
+export default function PrimarySearchAppBar({ onSearch, onAddMovie }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const isMenuOpen = Boolean(anchorEl);
+
 
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
@@ -63,7 +66,6 @@ export default function PrimarySearchAppBar({ onSearch }) {
     };
 
     const addMovieToDatabase = (movieTitle) => {
-
         fetch('http://localhost:8081/movies', {
             method: 'POST',
             headers: {
@@ -79,10 +81,12 @@ export default function PrimarySearchAppBar({ onSearch }) {
             })
             .then(data => {
                 console.log(data);
+                onAddMovie();
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error.message);
             });
+
     };
 
     return (
@@ -93,10 +97,11 @@ export default function PrimarySearchAppBar({ onSearch }) {
                         size="large"
                         edge="start"
                         color="inherit"
-                        aria-label="open drawer"
+                        aria-label="go to homepage"
+                        onClick={() => window.location.href = "/"}
                         sx={{ mr: 2 }}
                     >
-                        <MenuIcon />
+                        <HomeIcon />
                     </IconButton>
                     <Typography
                         variant="h6"
@@ -123,7 +128,7 @@ export default function PrimarySearchAppBar({ onSearch }) {
                         onClick={handleAddMovie}
                         sx={{ marginLeft: 1 }}
                     >
-                        Add
+                        Add Movie
                     </Button>
                 </Toolbar>
                 <Menu
