@@ -1,17 +1,18 @@
 // import logo from './logo.svg';
-import './App.css';
+//import './App.css';
 import Movies from './components/Movies'
-
+import PrimarySearchAppBar from './components/SearchBar'
+import React, { useState } from 'react';
 
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   return (
-    <>
-      <h1> Movies: </h1>
-      <div>
-        <Movies />
-      </div>
-    </>
+    <div>
+      <PrimarySearchAppBar onSearch={setSearchQuery} />
+      <Movies searchQuery={searchQuery} />
+    </div>
   );
 }
 
