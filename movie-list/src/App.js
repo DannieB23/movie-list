@@ -12,7 +12,7 @@ const movies = [
 function App() {
   return (
     <>
-      <h1> Movies: This list </h1>
+      <h1> Movies: </h1>
       <ul>
         {movies.map((movie, index) => (
           <li key={index}> {movie.title} </li>
