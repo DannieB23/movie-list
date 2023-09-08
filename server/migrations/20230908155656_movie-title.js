@@ -7,10 +7,10 @@ exports.up = function (knex) {
         'movie_title', table => {
             table.increments();
             table.string("title", 256);
-
+            table.boolean("userAdded").defaultTo(false);
+            table.boolean("watched").defaultTo(false);
         }
     )
-
 };
 /**
  * @param { import("knex").Knex } knex

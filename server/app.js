@@ -27,12 +27,46 @@ app.get('/movies', (req, res) => {
 
 //POST MOVIES
 app.post('/movies', (req, res) => {
-    const newMovie = req.body;
+    const newMovie = {
+        ...req.body,
+        userAdded: true
+    };
     knex('movie_title')
         .insert(newMovie)
         .then(() => res.status(201).json('New movie has been added.'))
         .catch((err) => res.status(500).json(err));
 });
+
+//Movie Watched Toggle PUT
+app.put('/movies/:id/watched', (req, res) => {
+    const id = req.params.id;
+    const { watched } = req.body;
+
+    knex('movie_title')
+        .where('id', id)
+        .update({ watched: watched })
+        .then(() => {
+            return knex('movie_title')
+                .select('*')
+                .where('id', id)
+                .first();
+        })
+        .then(movie => {
+            res.json(movie);
+        })
+        .catch((err) => res.status(500).json(err));
+});
+
+
+app.delete('/movies/:id', (req, res) => {
+    const id = req.params.id;
+    knex('movie_title')
+        .where('id', id)
+        .del()
+        .then(() => res.json('Movie selection has been deleted.'))
+        .catch((err) => res.status(500).json(err));
+});
+
 //LISTEN PORT
 app.listen(port, () => {
     console.log('Knex and Express applications running successfully')
