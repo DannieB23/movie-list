@@ -24,6 +24,15 @@ app.get('/movies', (req, res) => {
         .then(data => res.status(200).json(data))
         .catch((err) => res.status(500).json(err));
 })
+
+//POST MOVIES
+app.post('/movies', (req, res) => {
+    const newMovie = req.body;
+    knex('movie_title')
+        .insert(newMovie)
+        .then(() => res.status(201).json('New movie has been added.'))
+        .catch((err) => res.status(500).json(err));
+});
 //LISTEN PORT
 app.listen(port, () => {
     console.log('Knex and Express applications running successfully')

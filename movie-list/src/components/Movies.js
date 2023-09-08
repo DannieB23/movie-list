@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Movies() {
+function Movies({ searchQuery }) {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
@@ -10,10 +10,15 @@ function Movies() {
             .catch((error) => console.error(error));
     }, []);
 
+    const displayedMovies = searchQuery
+        ? movies.filter(movie =>
+            movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        : movies;
+
     return (
         <ul>
-            {console.log(movies)}
-            {movies.map((movie) => (
+            {displayedMovies.map((movie) => (
                 <li key={movie.id} id={movie.id}>
                     {movie.title}
                 </li>
@@ -22,4 +27,4 @@ function Movies() {
     );
 }
 
-export default Movies;
+export default Movies
